@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('Clone Repository'){
             steps{
-                git 'https://github.com/archanapatil2903//https://github.com/archana-cp/expt101.git'
+                git 'https://github.com/gagan1425/docker.git'
             }
         }
         stage('Build Docker Image'){
