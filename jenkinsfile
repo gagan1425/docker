@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "gagan/app-image"
+        DOCKER_IMAGE = "gagans0116/app-image"
     }
 
     stages {
