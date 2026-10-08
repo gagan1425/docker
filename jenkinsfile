@@ -1,50 +1,57 @@
-pipeline{
+pipeline {
     agent any
-    environment{
-        DOCKER_IMAGE="archanapatil2903/app-image"
+
+    environment {
+        DOCKER_IMAGE = "archanapatil2903/app-image"
     }
-    stages{
-        stage('Clone Repository'){
-            steps{
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
                 git 'https://github.com/gagan1425/docker.git'
             }
         }
-        stage('Build Docker Image'){
-            steps{
-                script{
+
+        stage('Build Docker Image') {
+            steps {
+                script {
                     docker.build("${DOCKER_IMAGE}:latest")
                 }
             }
         }
-        stage('Login to Docker Hub'){
-            steps{
-                withCredential([usernamePassword(
-                     crendentialsId:'dockerhub-creds'
-                usernameVariable:'DOCKER_USER1'
-                passwordVariable:'DOCKER_PASS'
 
-                )]){
-                    bat 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER1',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER1% --password-stdin'
                 }
-
             }
         }
-        stage('Push Docker Image'){
-            step{
-                script{
-                    docker.withRegistry('','dockerhub-creds'){
-                        docker.image("${Docker_Image}:latest").push()
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('', 'dockerhub-creds') {
+                        docker.image("${DOCKER_IMAGE}:latest").push()
                     }
                 }
             }
         }
     }
-    post{
-        success{
-            echo 'image successfully built and pushed to docker hub'
+
+    post {
+        success {
+            echo 'Image successfully built and pushed to Docker Hub'
         }
-        failure{
+
+        failure {
             echo 'Pipeline failed'
         }
     }
 }
+
