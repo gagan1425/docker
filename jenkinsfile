@@ -20,7 +20,7 @@ pipeline{
             steps{
                 withCredential([usernamePassword(
                      crendentialsId:'dockerhub-creds'
-                usernameVariable:'DOCKER_USER'
+                usernameVariable:'DOCKER_USER1'
                 passwordVariable:'DOCKER_PASS'
 
                 )]){
