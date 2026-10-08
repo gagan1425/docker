@@ -2,16 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "archanapatil2903/app-image"
+        DOCKER_IMAGE = "gagan/app-image"
     }
 
     stages {
-
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/gagan1425/docker.git'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
@@ -54,4 +48,3 @@ pipeline {
         }
     }
 }
-
